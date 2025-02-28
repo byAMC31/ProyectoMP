@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -10,11 +11,25 @@ const swaggerUi = require('swagger-ui-express');
 // Configurar dotenv
 dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(helmet());
+
+
+app.use(helmet({  // Aplica Helmet como middleware para mejorar la seguridad HTTP.
+    contentSecurityPolicy: {  // Configura la Política de Seguridad de Contenido (CSP).
+        directives: {  // Define las reglas de seguridad para los recursos cargados en la aplicación.
+            defaultSrc: ["'self'"],  // Solo permite cargar contenido desde el mismo dominio (previene inyecciones de contenido externo).
+            scriptSrc: ["'self'"],  // Restringe la ejecución de scripts solo a los alojados en el mismo dominio (bloquea scripts externos maliciosos).
+            objectSrc: ["'none'"],  // Bloquea la carga de contenido en `<object>`, `<embed>` y `<applet>` (previene ataques como clickjacking).
+            upgradeInsecureRequests: [],  // Si el usuario accede por HTTP, intenta redirigir automáticamente a HTTPS.
+        },
+    },
+    xssFilter: true  
+}));
+
 
 const urlS = `http://${process.env.DB_HOST}:${process.env.PORT}`;
 
@@ -28,7 +43,7 @@ const swaggerOptions = {
       },
       servers: [
         {
-          url: "http://localhost:3000", 
+          url: urlS,
           description: "Servidor de desarrollo",
         },
       ],
@@ -62,10 +77,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rutas de la API
 const userRoutes = require('./routes/userRoutes');
-app.use('/api/users', userRoutes);
+//app.use('/api/users', userRoutes);
+app.use('/api/v1/users', userRoutes);
 
 const loginRoutes = require('./routes/loginRoutes');  // Importa las rutas de login
-app.use('/api/login', loginRoutes);  // Establece la ruta para el inicio de sesión
+app.use('/api/v1/login', loginRoutes);  // Establece la ruta para el inicio de sesión
 
 // Función para verificar la conexión a la base de datos y sincronizar las tablas
 const dbConnection = async () => {
@@ -84,11 +100,10 @@ const dbConnection = async () => {
 };
 
 // Iniciar el servidor después de verificar la conexión a la base de datos
-const PORT = process.env.PORT || 3000;
 dbConnection()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`Servidor corriendo en ${urlS}`);
     });
   })
   .catch((error) => {
