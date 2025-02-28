@@ -51,3 +51,7 @@ dbConnection()
   .catch((error) => {
     console.error('No se pudo iniciar el servidor:', error.message);
   });
+
+
+// Exportar la instancia de la app para las pruebas
+module.exports = app;

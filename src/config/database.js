@@ -13,6 +13,7 @@ const sequelize = new Sequelize(
       encrypt: true,
       trustServerCertificate: true,
     },
+    charset: 'utf8', 
   }
 );
 
