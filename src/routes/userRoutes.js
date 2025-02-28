@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/users/register:
+ * /api/v1/users/register:
  *   post:
  *     summary: Registra un nuevo usuario
  *     tags:
@@ -79,7 +79,7 @@ router.post('/register', registerUser);
 
 /**
  * @swagger
- * /api/users:
+ * /api/v1/users:
  *   get:
  *     summary: Obtiene la lista de todos los usuarios
  *     tags:
@@ -136,7 +136,7 @@ router.get('/', validateToken,  getAllUsers);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   get:
  *     summary: Obtiene un usuario por su ID
  *     tags:
@@ -208,7 +208,7 @@ router.get('/:id',validateToken,  getUserById);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   delete:
  *     summary: Elimina un usuario por su ID
  *     tags:
@@ -274,7 +274,7 @@ router.delete('/:id',validateToken,  deleteUser);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/v1/users/{id}:
  *   put:
  *     summary: Actualiza un usuario por su ID
  *     tags:
@@ -366,7 +366,7 @@ router.put('/:id', validateToken,  updateUser);
 
 /**
  * @swagger
- * /api/users/{id}/password:
+ * /api/v1/users/{id}/password:
  *   put:
  *     summary: Actualiza la contraseña de un usuario por su ID
  *     tags:

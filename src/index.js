@@ -62,10 +62,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rutas de la API
 const userRoutes = require('./routes/userRoutes');
-app.use('/api/users', userRoutes);
+//app.use('/api/users', userRoutes);
+app.use('/api/v1/users', userRoutes);
 
 const loginRoutes = require('./routes/loginRoutes');  // Importa las rutas de login
-app.use('/api/login', loginRoutes);  // Establece la ruta para el inicio de sesión
+app.use('/api/v1/login', loginRoutes);  // Establece la ruta para el inicio de sesión
 
 // Función para verificar la conexión a la base de datos y sincronizar las tablas
 const dbConnection = async () => {
