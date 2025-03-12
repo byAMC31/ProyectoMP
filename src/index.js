@@ -31,7 +31,8 @@ app.use(helmet({  // Aplica Helmet como middleware para mejorar la seguridad HTT
 }));
 
 
-const urlS = `http://${process.env.DB_HOST}:${process.env.PORT}`;
+//const urlS = `http://${process.env.DB_HOST}:${process.env.PORT}`;
+const urlS = `http://localhost:${PORT}`;
 
 const swaggerOptions = {
     swaggerDefinition: {
